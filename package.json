@@ -4,12 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
+    "@angular/cli": "^16.0.3",
     "@angular/animations": "^16.0.0",
     "@angular/cdk": "^16.0.2",
     "@angular/common": "^16.0.0",
