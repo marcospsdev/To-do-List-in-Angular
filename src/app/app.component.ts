@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { TodoCardComponent } from './components/todo-card/todo-card.component';
+import { SchoolData, SchoolService } from './services/school.service';
+import { filter, from, map, Observable, of, switchMap, zip } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +12,106 @@ import { TodoCardComponent } from './components/todo-card/todo-card.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title = 'todo-list-16';
+export class AppComponent implements OnInit {
+  public title = 'todo-list-16';
+  public studentes: Array<SchoolData> = [];
+  public teachers: Array<SchoolData> = [];
+  private zipSchoolResponse$ = zip(
+    this.getStudentsDatas(),
+    this.getTeachersDatas(),
+  );
+  private ages = of(20, 30, 40, 50, 60, 70);
+  private peopleDatas = from([
+    {
+      name: 'Marcos Paulo',
+      age: 23,
+      profession: 'Software Developer',
+    },
+    {
+      name: 'Júlia',
+      age: 21,
+      profession: 'UX Designer',
+    },
+    {
+      name: 'Jorge',
+      age: 35,
+      profession: 'QA Tester',
+    },
+    {
+      name: 'Sebastião',
+      age: 29,
+      profession: 'Software Developer',
+    },
+    {
+      name: 'Carla',
+      age: 30,
+      profession: 'Software Developer',
+    },
+  ]);
+
+  private studentUserId = '2';
+
+  constructor(private schoolService: SchoolService) {}
+
+  public ngOnInit() {
+    // this.getSchoolDatas();
+    // this.getMultipliedAges();
+    // this.getSoftwareDeveloperNames();
+    this.handleFindStudentsById();
+  }
+
+  public handleFindStudentsById(): void {
+    this.getStudentsDatas()
+      .pipe(
+        switchMap((students) =>
+          this.findStudentsById(students, this.studentUserId),
+        ),
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('RETORNO ESTUDANTE FILTRADO', response);
+        },
+      });
+  }
+
+  public findStudentsById(
+    students: Array<SchoolData>,
+    userId: string,
+  ): Observable<(SchoolData | undefined)[]> {
+    return of([students.find((student) => student.id === userId)]);
+  }
+
+  public getMultipliedAges(): void {
+    this.ages.pipe(map((age) => age * 2)).subscribe({
+      next: (response) => console.log('IDADE MULTIPLICADA', response),
+    });
+  }
+
+  public getSoftwareDeveloperNames(): void {
+    this.peopleDatas
+      .pipe(
+        filter((people) => people.profession === 'Software Developer'),
+        map((people) => people.name),
+      )
+      .subscribe({
+        next: (response) => console.log('NOME DO DESENVOLVEDOR', response),
+      });
+  }
+
+  getSchoolDatas(): void {
+    this.zipSchoolResponse$.subscribe({
+      next: (response) => {
+        console.log('STUDENTS', response[0]);
+        console.log('TEACHERS', response[1]);
+      },
+    });
+  }
+
+  private getStudentsDatas(): Observable<Array<SchoolData>> {
+    return this.schoolService.getStudents();
+  }
+
+  private getTeachersDatas(): Observable<Array<SchoolData>> {
+    return this.schoolService.getTeachers();
+  }
 }
