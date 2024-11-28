@@ -1,9 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  WritableSignal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { TodoCardComponent } from './components/todo-card/todo-card.component';
 import { SchoolData, SchoolService } from './services/school.service';
 import { filter, from, map, Observable, of, switchMap, zip } from 'rxjs';
+import { TodoSignalsService } from './services/todo-signals.service';
+import { Todo } from './models/model/todo.model';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +22,13 @@ import { filter, from, map, Observable, of, switchMap, zip } from 'rxjs';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @Input() public projectName!: string;
+  @Output() public outputEvent = new EventEmitter<string>();
   public title = 'todo-list-16';
+  public todoSignal!: WritableSignal<Array<Todo>>;
+  public handleTestMessage = false;
+  public isDoned = false;
+
   public studentes: Array<SchoolData> = [];
   public teachers: Array<SchoolData> = [];
   private zipSchoolResponse$ = zip(
@@ -51,13 +66,33 @@ export class AppComponent implements OnInit {
 
   private studentUserId = '2';
 
-  constructor(private schoolService: SchoolService) {}
+  constructor(
+    private schoolService: SchoolService,
+    private todoSignalsService: TodoSignalsService,
+  ) {}
 
   public ngOnInit() {
     // this.getSchoolDatas();
     // this.getMultipliedAges();
     // this.getSoftwareDeveloperNames();
     this.handleFindStudentsById();
+  }
+
+  public handleEmitEvent(): void {
+    this.outputEvent.emit(this.projectName);
+  }
+
+  public handleCreateTodo(todo: Todo): void {
+    if (todo) {
+      this.todoSignalsService.updateTodos(todo);
+      this.todoSignal = this.todoSignalsService.todosState;
+    }
+  }
+
+  public handleCheckIsDone(): void {
+    setTimeout(() => {
+      this.isDoned = true;
+    }, 200);
   }
 
   public handleFindStudentsById(): void {
