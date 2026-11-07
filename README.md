@@ -1,27 +1,130 @@
-# TodoList16
+# To-do List em Angular com Signals e Testes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
+Gerenciador de tarefas em Angular 16 com Signals, Angular Material e 14 testes com Jest.
 
-## Development server
+<p align="center">
+  <img src="docs/preview.webp" alt="Tarefas em andamento" width="900">
+</p>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## Sumário
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [Visão geral](#visão-geral)
+- [Telas](#telas)
+- [Stack e versões](#stack-e-versões)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Primeiros passos](#primeiros-passos)
+- [Scripts](#scripts)
+- [Autor](#autor)
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Visão geral
 
-## Running unit tests
+Aplicação de tarefas para praticar os recursos mais novos do Angular: estado com Signals, componentes standalone, comunicação com @Input e @Output, pipe e diretiva personalizados, SSR e persistência no localStorage. As tarefas ficam separadas em abas (em andamento e concluídas) e são criadas por um diálogo do Angular Material. O projeto tem testes unitários com Jest para componente, serviços, pipe e diretiva.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Principais funcionalidades:
 
-## Running end-to-end tests
+- Estado com Angular Signals
+- Pipe e diretiva personalizados
+- 14 testes unitários com Jest
+- SSR e dados no localStorage
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Concluído em 11/2024.
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Telas
+
+Todas as telas usam dados fictícios.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/tela-01.webp" alt="Tarefas concluídas"><br><sub>Tarefas concluídas</sub></td>
+    <td width="50%"><img src="docs/tela-02.webp" alt="Diálogo para adicionar tarefa"><br><sub>Diálogo para adicionar tarefa</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/tela-03.webp" alt="Testes com Jest passando no terminal"><br><sub>Testes com Jest passando no terminal</sub></td>
+  </tr>
+</table>
+
+---
+
+## Stack e versões
+
+| Categoria | Tecnologia | Versão |
+| --- | --- | --- |
+| Linguagem | TypeScript | 5.0 |
+| Framework | Angular | 16.0 |
+| Build | Angular CLI | 16.0 |
+| Componentes | Angular Material | 16.0 |
+| Reatividade | RxJS | 7.8 |
+| Testes | Jest + Jasmine + Karma | 29.7 / 4.6 / 6.4 |
+| Qualidade | Prettier | 3.3 |
+
+As versões exatas estão no `package.json`.
+
+---
+
+## Estrutura do projeto
+
+```
+src/
+  app/
+    components/
+    models/
+    services/
+    shared/
+    app.component.html
+    app.component.scss
+    app.component.spec.ts
+    app.component.ts
+    app.config.server.ts
+    app.config.ts
+  assets/
+  favicon.ico
+  index.html
+  main.server.ts
+  main.ts
+  server.ts
+  styles.scss
+```
+
+---
+
+## Primeiros passos
+
+### Pré-requisitos
+
+- Node.js 16.14 ou mais recente
+- npm
+
+### Instalação
+
+```bash
+git clone https://github.com/marcospsdev/To-do-List-in-Angular.git
+cd To-do-List-in-Angular
+npm install
+npm start                 # http://localhost:4200
+```
+
+---
+
+## Scripts
+
+| Comando | Descrição |
+| --- | --- |
+| `npm start` | Servidor de desenvolvimento em http://localhost:4200 |
+| `npm run build` | Build de produção em `dist/` |
+| `npm run watch` | Build em modo watch |
+| `npm test` | Testes unitários |
+
+---
+
+## Autor
+
+**Marcos Paulo** · Desenvolvedor Full-Stack
+
+- LinkedIn: [in/marcospsdev](https://www.linkedin.com/in/marcospsdev)
+- GitHub: [@marcospsdev](https://github.com/marcospsdev)
